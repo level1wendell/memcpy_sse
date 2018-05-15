@@ -1,0 +1,39 @@
+
+Trying to make memcpy() go faster when compiled as a 32 bit binary.
+
+Let's use sse3/128 bit copies.
+
+32 bit
+gcc -march=sse3 -O3 -m32 testmem_modified.c -o tm32
+
+64 bit
+gcc -march=sse3 -O3 -m64 testmem_modified.c -o tm64
+
+
+
+usage:
+
+./tm32 (or ./tm64) 32 
+
+for a 32 meg memory to memory copy. if you want, replace memcpy_sse with
+memcpy() which is a built-in function. When compiling with -m32 it is glacially
+slow even for architectures that have things more advanced than e.g. the eax register.  
+
+with default memcpy() on 32 bit compile:
+
+./tm32 32
+32 MB = 3.388237 ms
+-Compare match (should be zero):  0 
+
+with memcpy_sse() on 32 bit compile:
+
+./tm32 32
+32 MB = 0.759420 ms  (LOWER IS ISANELY WAY BETTER...) 
+-Compare match (should be zero):  0 
+
+./tm64 32 with standard memcpy() on 64 bit compile:
+
+32 MB = 0.759102 ms (AS INTENDED)
+-Compare match (should be zero):  0 
+
+The test system is an AMD Threadripper 1950x Clocked at 4.1ghz with DDR4-3200 memory. 
