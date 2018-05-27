@@ -62,9 +62,10 @@ for(int i = 0; i < s; i++) {
 }
 
 
-    uint64_t t = nanotime();      
+    uint64_t t = nanotime();  
+    void *(*memcpy_ptr)(void *, const void *, size_t) = memcpy;    
     for(volatile int i = 0; i < 1000; ++i)
-       memcpy_sse(buffer1, buffer2, size );
+       memcpy_ptr(buffer1, buffer2, size );
     printf("%2u MB = %f ms\n", s, ((float)(nanotime() - t) / 1000.0f) / 1000000.0f);
     printf("-Compare match (should be zero): %2u \n\n", memcmp(buffer1,buffer2,size)) ;
     free(buffer1);

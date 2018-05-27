@@ -37,3 +37,13 @@ with memcpy_sse() on 32 bit compile:
 -Compare match (should be zero):  0 
 
 The test system is an AMD Threadripper 1950x Clocked at 4.1ghz with DDR4-3200 memory. 
+
+
+UPDATE: It has been suggested to try some additional gcc params to try not inlining memcpy(). This does help on SOME systems. But not all, not on Fedora 27+Threadripper for example.
+
+#Non-inlined memcpy is sometimes, but not always, garbage. On this TR system it is garbage... 
+gcc -march=k8-sse3 -m32 -O3 -o tm32 -fno-builtin-inline -fno-inline testmem_modified.c -S
+
+This also doesn't work for memcpy speedup, which forces gcc to not inline memcpy (call as memcpy_ptr) 
+void *(*memcpy_ptr)(void *, const void *, size_t) = memcpy;
+
