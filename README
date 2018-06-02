@@ -4,10 +4,10 @@ Trying to make memcpy() go faster when compiled as a 32 bit binary.
 Let's use sse3/128 bit copies.
 
 32 bit
-gcc -march=sse3 -O3 -m32 testmem_modified.c -o tm32
+gcc -march=sse3 -O3 -m32 testmem_modified.c -o tm32 or make 32
 
 64 bit
-gcc -march=sse3 -O3 -m64 testmem_modified.c -o tm64
+gcc -march=sse3 -O3 -m64 testmem_modified.c -o tm64 or make 64
 
 
 
@@ -46,4 +46,3 @@ gcc -march=k8-sse3 -m32 -O3 -o tm32 -fno-builtin-inline -fno-inline testmem_modi
 
 This also doesn't work for memcpy speedup, which forces gcc to not inline memcpy (call as memcpy_ptr) 
 void *(*memcpy_ptr)(void *, const void *, size_t) = memcpy;
-
